@@ -1,0 +1,345 @@
+# =====================================================================
+# EEG_Viz_Att — RSVP Attention Paradigm — default config
+# =====================================================================
+# All hyperparameters are concentrated here per project requirement.
+# Override fields by passing --config to run.py or by copying this file.
+# =====================================================================
+
+experiment_name: "rsvp_attention_lvis_pilot"
+
+# ─── Dataset ─────────────────────────────────────────────────────────
+dataset:
+  type: "lvis_coco"
+  coco_root: "C:/Users/thlab/Desktop/ES_coco/data/coco"
+
+  lvis_annotations:
+    # zips are auto-detected by suffix
+    train: "C:/Users/thlab/Documents/Claude/Projects/EEG_Viz_Att/experiment/lvis_v1_train.json.zip"
+    val:   "C:/Users/thlab/Documents/Claude/Projects/EEG_Viz_Att/experiment/lvis_v1_val.json.zip"
+
+  # Filter parameters.
+  #
+  # IMPORTANT: K=4 is the spec's ideal but with uniqueness + area constraints
+  # almost no LVIS image satisfies "exactly 4 unique target categories of
+  # appropriate area". Realistic LVIS yield (val split smoke test):
+  #     K=2 ~540 imgs   K=3 ~60 imgs   K=4 ~3 imgs
+  # Train split is ~8x larger. K=2 is the practical default; raise to K=3 or
+  # K=4 once train is in use AND you're OK with a small image pool.
+  splits: ["val", "train"]
+  targets_per_image: 2                        # K - minimum qualifying targets per image
+  instances_per_target: null                  # null/0 = no instance-count limit
+  min_area_frac: 0.03                        # bbox area / image area lower bound
+  max_area_frac: 0.6                         # upper bound — avoid single-object close-ups
+  shuffle_seed: 42
+
+  # Balanced Phase-1 subset selection.
+  #
+  # Phase 1 first builds all candidates with at least `targets_per_image`
+  # qualifying selected categories, then greedily chooses a subset that:
+  #   1) prefers images with ~4 selected-category objects;
+  #   2) fills all configured categories toward the same per-category target;
+  #   3) keeps rare categories up to their achievable maximum.
+  balance_selection: true
+  preferred_targets_per_image: 4
+  target_images_per_target: 40                 # desired balanced count/class
+  min_images_per_target_warning: 20            # warn if a class cannot form 15-image trials
+  max_images_per_target: null                  # legacy hard cap if balance_selection=false
+
+  # EEG model split inside the selected subset. This is independent of the
+  # original LVIS/COCO train/val split stored as each item's `split`.
+  eeg_test_fraction: 0.20
+  eeg_split_seed: 42
+
+  # 40 perceptually-distinct LVIS categories (no faces).
+  # Edit this list directly to control which categories Phase 1 can select.
+  target_categories:
+    # Animals
+    - "dog"
+    - "cat"
+    - "horse"
+    - "cow"
+    - "bench"
+    - "bird"
+    - "elephant"
+    - "zebra"
+    - "giraffe"
+    - "teddy_bear"
+    # Plants / food
+    - "apple"
+    - "banana"
+    - "fork"
+    - "spoon"
+    - "orange_(fruit)"
+    - "tomato"
+    - "doughnut"
+    - "pizza"
+    # Vehicles
+    - "car_(automobile)"
+    - "boat"
+    - "motorcycle"
+    - "bicycle"
+    - "bus_(vehicle)"
+    # Furniture
+    - "chair"
+    - "sofa"
+    - "dining_table"
+    - "bed"
+    - "cabinet"
+    # Kitchen / containers
+    - "bottle"
+    - "cup"
+    - "bowl"
+    - "glass_(drink_container)"
+    # Wearables / accessories
+    - "handbag"
+    - "hat"
+    - "umbrella"
+    - "backpack"
+    # Electronics
+    - "laptop_computer"
+    - "cellular_telephone"
+    - "television_set"
+    - "remote_control"
+
+# ─── Paradigm ────────────────────────────────────────────────────────
+paradigm:
+  type: "rsvp_attention"
+
+  # Terminology:
+  #   RSVP group = the actual Phase-2 scheduling unit. One RSVP group has
+  #     one attention label/HINT and a short sequence of same-label stimulus
+  #     presentations.
+  #   Trial = legacy/spec wording only. The current code does not schedule a
+  #     separate "trial" object; use RSVP group parameters below.
+
+  # Timing within one RSVP group.
+  stim_on_ms: 350                             # image ON duration
+  stim_off_ms: 150                            # ISI (blank) between images — base value
+  # ISI jitter: per-trial uniform sample in
+  #     [stim_off_ms - stim_off_ms_jitter, stim_off_ms + stim_off_ms_jitter]
+  # Set to 0 for fixed ISI. Recommended: 30~50 ms (~10-30% of base) to break
+  # phase-locked artefacts and reduce expectancy bias without disturbing the
+  # RSVP rhythm. Effective ISI is logged per-trial as `isi_ms` in stim_offset.
+  stim_off_ms_jitter: 50
+  hint_ms: 200                                # HINT (text cue) duration
+  group_rest_ms: 0                            # short blank after each RSVP group
+
+  # ── HINT language ────────────────────────────────────────────────
+  # 'zh' uses category_translation_zh + a TTF font (Microsoft YaHei by
+  # default on Windows). 'en' falls back to the legacy uppercase English
+  # rendering via cv2.putText. 'both' shows Chinese big + English small.
+  hint_language: "zh"
+  hint_font_path: "C:/Windows/Fonts/msyh.ttc"
+  hint_font_size: 240
+  hint_subtitle_size: 56
+  # English LVIS canonical name -> Chinese display label. Any category
+  # missing from this map falls back to the LVIS name with underscores
+  # replaced by spaces.
+  category_translation_zh:
+    dog: "狗"
+    cat: "猫"
+    horse: "马"
+    cow: "牛"
+    bench: "长椅"
+    bird: "鸟"
+    elephant: "大象"
+    zebra: "斑马"
+    giraffe: "长颈鹿"
+    teddy_bear: "泰迪熊"
+    apple: "苹果"
+    banana: "香蕉"
+    fork: "叉子"
+    spoon: "勺子"
+    orange_(fruit): "橙子"
+    tomato: "西红柿"
+    doughnut: "甜甜圈"
+    pizza: "披萨"
+    car_(automobile): "汽车"
+    boat: "船"
+    motorcycle: "摩托车"
+    bicycle: "自行车"
+    bus_(vehicle): "公交车"
+    chair: "椅子"
+    sofa: "沙发"
+    dining_table: "餐桌"
+    bed: "床"
+    cabinet: "柜子"
+    bottle: "瓶子"
+    cup: "杯子"
+    bowl: "碗"
+    glass_(drink_container): "玻璃杯"
+    handbag: "手提包"
+    hat: "帽子"
+    umbrella: "雨伞"
+    backpack: "背包"
+    laptop_computer: "笔记本电脑"
+    cellular_telephone: "手机"
+    television_set: "电视机"
+    remote_control: "遥控器"
+
+  # RSVP group construction and randomization.
+  pool_images_per_target: 10                  # randomly seed 10 images per selected label
+  group_images_per_label: 20                  # each attention label uses up to this many images
+  rsvp_group_size: 20                         # presentations per short RSVP group
+  preferred_targets_per_image: 4              # prefer pics with ~4 selected labels
+  eeg_train_repeats_per_image_label: 8        # repeat each EEG-train image+attention-label pair
+  eeg_test_repeats_per_image_label: 16        # repeat each EEG-test image+attention-label pair
+  stimulus_splits: null                       # original COCO/LVIS split filter; null = all
+
+  # Rest and continuation control. Counts short RSVP groups, not labels.
+  groups_per_rest: 56                         # long rest after this many RSVP groups
+  rest_after_groups_ms: 300000                # 5 min rest after M groups
+  wait_for_enter_after_rest: true             # continue only after Enter
+
+  # Optional annotation cue drawn into preloaded stimulus textures.
+  draw_target_outline: true
+  outline_color_rgb: [255, 255, 0]
+  outline_thickness: 5
+
+  # Session-level static screens.
+  fixation_ms: 800                            # fixation cross at session start
+  initial_rest_ms: 3000
+  final_rest_ms: 2000
+
+  shuffle_seed: 42
+
+# ─── Display ─────────────────────────────────────────────────────────
+display:
+  width: 1920
+  height: 1080
+  fullscreen: true
+  vsync: 1                                    # 1 = wait for vblank
+  warmup_frames: 10
+  monitor_index: 1                            # 0 = primary; for multi-monitor rigs
+
+# ─── Markers ─────────────────────────────────────────────────────────
+# When `serial.enabled: false`, no TTL bytes are written to the EEG
+# amplifier. In that mode every stimulus ONSET is still captured via
+# cv2.getTickCount() — its value lands in the `cv2_tick_qpc` field of
+# every `stim_onset` event in the session JSON. cv2.getTickCount maps to
+# QueryPerformanceCounter on Windows, so it's directly comparable with
+# the eye-tracker's QPC timestamps.
+markers:
+  photodiode:
+    enabled: true
+    size: 60
+    corner: "bottom_left"
+  serial:
+    enabled: false                             # false => use cv2.getTickCount fallback
+    port: "COM3"
+    baudrate: 115200
+
+# ─── Eye-tracking ────────────────────────────────────────────────────
+eyetracking:
+  enabled: true
+  device: "tobii_et5"
+  # Path to tobii_gameintegration_x64.dll (official TGI SDK v9.0.4).
+  # null => auto-search: eyetracking/tobii_bridge/ then eye_track_ssvep/.
+  dll_path: null
+
+  # ── Storage format ────────────────────────────────────────────────
+  # 'csv' = legacy plain text (large, slow). 'hdf5' = chunked + gzip
+  # compressed compound datasets via h5py (~5-10x smaller, ~10-50x
+  # faster I/O at >100 Hz polling). HDF5 layout:
+  #   /gaze   compound{tick_qpc_s:f8, x:f4, y:f4}
+  #   /head   compound{tick_qpc_s:f8, pitch:f4, yaw:f4, roll:f4,
+  #                    x:f4, y:f4, z:f4}
+  #   /marks  compound{tick_qpc_s:f8, tag:S128}
+  # Each dataset is extendable (maxshape=(None,)) and chunked, so any
+  # length of session is supported with bounded memory.
+  format: "hdf5"                            # "csv" | "hdf5"
+  hdf5_chunk_size: 2048                     # rows per HDF5 chunk
+  hdf5_compression: "gzip"                  # "gzip" | "lzf" | null
+  hdf5_compression_level: 4                 # 1..9 for gzip
+  hdf5_flush_every_s: 2.0                   # periodic flush to survive crashes
+
+  # ── Stale-sample detection ────────────────────────────────────────
+  # Tobii TGI's GetLatestGazePoint() keeps returning the LAST valid
+  # GazePoint when the subject's eyes leave the tracking volume
+  # (eyes closed, head turned, tracker physically blocked).
+  # `_get_gaze` returns True but the values are frozen and the
+  # GazePoint.TimeStampMicroSeconds field stops advancing.
+  #
+  # The poll loop now only updates the live-gaze cache when Tobii's
+  # per-sample TS strictly advances. `get_latest_gaze()` returns None
+  # if the last fresh sample is older than `stale_threshold_s`.
+  #
+  # ET5 native rate ~33-60 Hz → fresh samples every 17-30 ms.
+  # 80 ms tolerates 2-3 missed polls before declaring "lost"; raise to
+  # 150-200 ms if your tracker is configured at lower rates or you see
+  # spurious losses, lower to 50 ms for snappier detection.
+  stale_threshold_s: 0.08
+
+  # ── Real-time gaze monitoring ────────────────────────────────────
+  #
+  # Coordinate system note (IMPORTANT for multi-monitor rigs):
+  # Tobii TGI normalizes gaze to its TrackRectangle (set at startup
+  # to the *stimulus monitor* pixel rect via `display.monitor_index`).
+  # When the subject looks AT the stimulus monitor, gaze ∈ [-1, 1].
+  # When they look at another physical monitor, gaze can land OUTSIDE
+  # [-1, 1] — that is normal and expected, NOT a bug. The cursor will
+  # render at the true location and naturally clip to the viewport.
+  # Set `cursor_clip_to_edge: true` if you want the cursor pinned to
+  # the screen edge instead of disappearing.
+  #
+  monitor:
+    enabled: true
+    # Cursor drawn every frame during the ISI window (between stimuli)
+    # using OpenGL primitives (no texture re-upload, ~0 timing impact).
+    cursor_radius_px: 18
+    cursor_color_rgb: [0, 255, 0]
+    cursor_y_invert: false                  # Tobii TGI: +Y is up; flip if needed
+    # Off-screen cursor handling (dual-monitor):
+    cursor_clip_to_edge: false              # true = pin to edge in alt color
+    cursor_offscreen_color_rgb: [255, 200, 80]
+    # Persistent fixation marker shown at screen center during ISI to
+    # remind subject where to fixate. Set radius to 0 to disable.
+    fixation_marker_radius_px: 6
+    fixation_marker_color_rgb: [255, 255, 255]
+    # Visual deviation threshold during onset-ON. Units = Tobii TGI native
+    # signed normalized coords. (0, 0) is the TrackRectangle center.
+    # Reference values (single monitor):
+    #   0.10 ≈ ~3°  (very strict, central fovea)
+    #   0.15 ≈ ~4°  (strict)
+    #   0.30 ≈ ~8°  (moderate)
+    # If your subject's natural fixation lands outside [-1, 1] (TrackRectangle
+    # smaller than the actual stimulus area, or stimulus on the "wrong"
+    # monitor), raise this until natural gaze sits comfortably below
+    # threshold. Setting threshold > 1.0 effectively only catches genuine
+    # off-screen gaze.
+    threshold_normalized: 0.30
+    # Minimum continuous frames above threshold needed to flag the trial
+    # — debounces transient saccades.
+    min_consecutive_frames: 3
+    # When a trial's onset-ON had threshold violation, the *following*
+    # ISI overlays a red ring around the central fixation as feedback.
+    warning_ring_radius_px: 64
+    warning_ring_color_rgb: [255, 50, 50]
+    warning_ring_thickness_px: 4
+
+    # ── Gaze-loss watchdog ─────────────────────────────────────────
+    # When the tracker stops returning samples (subject blinked too long,
+    # head out of view, hardware glitch) the paradigm pauses instead of
+    # silently recording bad data. Loss is detected after `grace_ms` of
+    # continuously-None gaze; the experiment resumes once the tracker
+    # delivers continuous valid samples for `resume_window_ms`.
+    #
+    # `abort_on_loss_during_on` (default true) interrupts the visual
+    # stimulus IMMEDIATELY when loss exceeds grace, rather than letting
+    # the remaining ON window play out to a blind subject. The current
+    # trial is logged with `aborted=True` and we go straight to the
+    # pause loop. Set false to keep the original behaviour (let ON
+    # finish, then pause before the next trial).
+    pause_on_gaze_loss: true
+    abort_on_loss_during_on: true
+    gaze_loss_grace_ms: 400          # ignore loss shorter than this (≈ blinks)
+    gaze_resume_window_ms: 300       # require this much continuous gaze before resume
+    pause_message_zh: "未检测到眼动信号"
+    pause_message_zh_sub: "请保持注视屏幕中心"
+    pause_font_size: 96
+    pause_font_subtitle_size: 48
+    pause_check_interval_ms: 50      # how often to poll gaze inside the pause loop
+
+# ─── Logging ─────────────────────────────────────────────────────────
+logging:
+  output_dir: "C:/Users/thlab/Documents/Claude/Projects/EEG_Viz_Att/experiment/logs"

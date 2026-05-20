@@ -1,0 +1,117 @@
+# ───────────────────────────────────────────────────────────────────
+# Process-1 master config — every analysis profile lives here.
+# Driver usage:
+#     python -B -m process1_data_process.run_qc      \
+#         --config configs/process1.yaml --profile main
+#     python -B -m process1_data_process.run_overlap \
+#         --config configs/process1.yaml --profile overlap
+# Override any leaf with `--set key=value` (dotted path) at the CLI.
+# ───────────────────────────────────────────────────────────────────
+
+# Subject / dataset paths (single source of truth; reused by every profile)
+data:
+  subject_id:   zfn-0507
+  fif:          data/zfn-0507/epochs_big-epo.fif
+  session_json: data/zfn-0507/session_rsvp_attention_lvis_pilot_20260507_201520.json
+  # Paradigm constants — extracted from session JSON, hard-coded for sanity
+  paradigm:
+    soa_ms:        514.0
+    stim_dur_ms:   352.0
+    isi_ms:        156.0
+    refresh_hz:    360.0
+    n_hint_classes: 40
+
+# ──────────────  PROFILE: main  ────────────────────────────────────
+# Original full window (-0.5, +1.0) s, short baseline. Produces F01-F17.
+profiles:
+  main:
+    fig_dir: process1_data_process/fig
+    epoching:
+      pick_eeg:        true
+      decim:           4
+      crop_tmin:       -0.5
+      crop_tmax:        1.0
+      baseline_tmin:   -0.1
+      baseline_tmax:    0.0
+      filter_band:      null     # [lo, hi] Hz or null
+    qc:
+      bad_thresholds:
+        p2p_max_uv:    200.0
+        flat_count_max: 2
+        kurt_max:       8.0
+    sweep:
+      enable:      true
+      label:       hint
+      t_len_ms:    100
+      t_step_ms:    50
+      n_folds:      3
+      lda_solver:  lsqr
+      lda_shrinkage: auto
+    decode:
+      enable:      true
+      win_ms:      [0, 500]
+      n_folds:     5
+    avg_effect:
+      enable:      true
+      ks:          [1, 2, 4, 8, all]
+      win_ms:      [0, 500]
+      n_folds:     5
+    seed: 42
+
+  # ────────  PROFILE: clean  (Plan A — tight epoch + short baseline)
+  clean:
+    fig_dir: process1_data_process/fig_clean
+    epoching:
+      pick_eeg:        true
+      decim:           4
+      crop_tmin:       -0.1
+      crop_tmax:        0.45
+      baseline_tmin:   -0.1
+      baseline_tmax:    0.0
+      filter_band:      null
+    qc:
+      bad_thresholds:
+        p2p_max_uv:    200.0
+        flat_count_max: 2
+        kurt_max:       8.0
+    sweep:
+      enable:      true
+      label:       hint
+      t_len_ms:    100
+      t_step_ms:    50
+      n_folds:      3
+      lda_solver:  lsqr
+      lda_shrinkage: auto
+    decode:
+      enable:      true
+      win_ms:      [0, 450]
+      n_folds:     5
+    avg_effect:
+      enable:      true
+      ks:          [1, 2, 4, 8, all]
+      win_ms:      [0, 450]
+      n_folds:     5
+    seed: 42
+
+  # ────────  PROFILE: overlap  (Plan B + Plan C rERP)  ────────────
+  overlap:
+    fig_dir: process1_data_process/fig_overlap
+    epoching:
+      pick_eeg:        true
+      decim:           4
+      crop_tmin:       -0.5
+      crop_tmax:        1.0
+      baseline_tmin:    null      # disable baseline subtraction
+      baseline_tmax:    null
+      filter_band:     [0.5, 30.0]  # 4th-order zero-phase Butterworth
+    plan_b:
+      enable:      true
+      filter_band: [0.5, 30.0]
+    plan_c:
+      enable:        true
+      soa_ms:        514.0
+      ridge:         1.0
+      resp_tmin_ms: -100.0
+      resp_tmax_ms:  450.0
+      n_neighbours:  3
+    seed: 42

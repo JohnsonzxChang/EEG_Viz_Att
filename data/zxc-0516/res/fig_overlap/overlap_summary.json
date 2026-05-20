@@ -1,0 +1,29 @@
+{
+  "config_file": "C:\\Users\\thlab\\Documents\\Claude\\Projects\\EEG_Viz_Att\\process1_data_process\\configs\\process1_overlap.yaml",
+  "soa_ms": 514.0,
+  "ridge": 1.0,
+  "plan_b": {
+    "filter_band": [
+      0.5,
+      30.0
+    ]
+  },
+  "plan_c": {
+    "soa_ms": 514.0,
+    "ridge": 1.0,
+    "cond": 7.0,
+    "A_shape": [
+      376,
+      138
+    ],
+    "gfp_obs_max_uv": 2.1677253246307373,
+    "gfp_dec_max_uv": 0.7837607264518738,
+    "gfp_pre_after": 0.16629840433597565,
+    "gfp_post_after": 0.4565984010696411,
+    "ratio_after": 2.745657205581665,
+    "resp_window_ms": [
+      -100.0,
+      450.0
+    ]
+  }
+}

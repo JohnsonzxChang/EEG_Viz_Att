@@ -1,0 +1,16 @@
+# Core
+numpy
+opencv-python
+PyYAML
+Pillow                          # CJK HINT rendering via TTF (msyh.ttc / simhei.ttf)
+
+# Display + timing
+glfw
+PyOpenGL
+PyOpenGL-accelerate
+
+# Marker
+pyserial
+
+# Eye-tracking storage backend (HDF5 chunked + gzip)
+h5py
