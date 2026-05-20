@@ -1,0 +1,20 @@
+# Plan A — tight [-100, +450] ms epoch, short pre-stim baseline.
+# Recommended primary analysis for the paper.
+
+extends: "base.yaml"
+
+preproc:
+  crop_tmin_s: -0.1
+  crop_tmax_s:  0.45
+  baseline:
+    tmin_s: -0.1
+    tmax_s:  0.0
+
+decoder:
+  win_ms: [0, 450]
+sweep:
+  t_len_ms: 150
+  t_step_ms: 50
+
+output:
+  fig_dir: "data/zxc-0516/res/fig_clean"

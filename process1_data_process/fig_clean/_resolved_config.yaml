@@ -1,0 +1,67 @@
+dataset:
+  fif: data/zfn-0507/epochs_big-epo.fif
+  session_json: data/zfn-0507/session_rsvp_attention_lvis_pilot_20260507_201520.json
+paradigm:
+  refresh_hz: 360
+  stim_duration_ms: 352
+  isi_ms: 156
+  soa_ms: 514
+  n_hint_classes: 40
+  n_targets_per_image_K:
+  - 2
+  - 3
+preproc:
+  pick_eeg: true
+  decim: 4
+  dtype: float32
+  crop_tmin_s: -0.1
+  crop_tmax_s: 0.45
+  baseline:
+    tmin_s: -0.1
+    tmax_s: 0.0
+  filter_band:
+    lo_hz: null
+    hi_hz: null
+qc:
+  p2p_max_uv: 200.0
+  flat_count_max: 2
+  kurt_max: 8.0
+viz:
+  topomap_times_ms:
+  - 100
+  - 170
+  - 220
+  - 300
+  - 400
+  target_effect_peak_ms: 300
+  alpha_band_hz:
+  - 8.0
+  - 13.0
+  target_area_window_ms:
+  - 200
+  - 500
+  max_hints_panel: 16
+decoder:
+  win_ms:
+  - 0
+  - 450
+  n_folds: 5
+  seed: 42
+  lda_solver: svd
+  lda_shrinkage: null
+  erp_avg_ks:
+  - 1
+  - 2
+  - 4
+  - 8
+  - all
+sweep:
+  enable: true
+  t_len_ms: 150
+  t_step_ms: 50
+  n_folds: 3
+  lda_solver: lsqr
+  lda_shrinkage: auto
+output:
+  fig_dir: process1_data_process/fig_clean
+  save_svg: true

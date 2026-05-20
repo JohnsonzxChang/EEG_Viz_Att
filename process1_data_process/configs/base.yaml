@@ -1,0 +1,66 @@
+# ─── Process-1 shared base configuration ──────────────────────────────
+# Any specific config (process1_full / process1_clean / process1_overlap)
+# can override individual fields. Lists are replaced wholesale, dicts merge.
+
+dataset:
+  fif:          "data/zxc-0516/epochs_big-epo.fif"
+  session_json: "data/zxc-0516/session_rsvp_attention_lvis_pilot_20260515_201441.json"
+
+# ─── Paradigm constants (recorded; do NOT change unless re-pilot) ───
+paradigm:
+  refresh_hz:        360
+  stim_duration_ms:  352      # 5/95% CI: 350-356
+  isi_ms:            156      # 5/95%: 154-161
+  soa_ms:            514      # 5/95%: 509-519
+  n_hint_classes:    40
+  n_targets_per_image_K: [2, 3]
+
+# ─── Preprocessing ─────────────────────────────────────────────────
+preproc:
+  pick_eeg:        true       # drop gaze_x / gaze_y
+  decim:           4          # 1000 → 250 Hz
+  dtype:           "float32"
+  crop_tmin_s:     -0.5       # full fif window kept by default
+  crop_tmax_s:      1.0
+  baseline:                   # null = skip
+    tmin_s:        -0.1
+    tmax_s:         0.0
+  filter_band:                # null = skip bandpass
+    lo_hz:         null
+    hi_hz:         null
+
+# ─── QC thresholds (per_epoch_quality.flag_bad_trials) ─────────────
+qc:
+  p2p_max_uv:      200.0
+  flat_count_max:  2
+  kurt_max:        8.0
+
+# ─── Visualisation ──────────────────────────────────────────────────
+viz:
+  topomap_times_ms: [100, 170, 220, 300, 400]
+  target_effect_peak_ms: 300
+  alpha_band_hz:    [8.0, 13.0]
+  target_area_window_ms: [200, 500]
+  max_hints_panel:  16
+
+# ─── Decoder / sweep ────────────────────────────────────────────────
+decoder:
+  win_ms:         [0, 500]
+  n_folds:        5
+  seed:           42
+  lda_solver:     "svd"           # 'svd' supports predict_proba
+  lda_shrinkage:  null
+  erp_avg_ks:     [1, 2, 4, 8, "all"]
+
+sweep:
+  enable:         true
+  t_len_ms:       200
+  t_step_ms:      100
+  n_folds:        3
+  lda_solver:     "lsqr"          # fast for sweep (decision_function for top-5)
+  lda_shrinkage:  "auto"
+
+# ─── Output ─────────────────────────────────────────────────────────
+output:
+  fig_dir:        "data/zxc-0516/res/fig"
+  save_svg:       true            # in addition to 300dpi PNG

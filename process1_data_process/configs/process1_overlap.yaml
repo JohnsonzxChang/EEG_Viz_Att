@@ -1,0 +1,30 @@
+# Plans B + C — overlap-aware analyses on the full [-0.5, +1.0] s window.
+# Plan B  : bandpass 0.5-30 Hz, NO baseline (filter handles drift)
+# Plan C  : Tikhonov rERP deconvolution under finite-support assumption.
+
+extends: "base.yaml"
+
+preproc:
+  crop_tmin_s: -0.5
+  crop_tmax_s:  1.0
+  baseline: null                 # plan B / C use unfiltered data internally
+  filter_band:
+    lo_hz: 0.5
+    hi_hz: 30.0
+
+rerp:                            # plan C
+  soa_ms:        514.0
+  ridge:         1.0
+  resp_tmin_ms: -100.0
+  resp_tmax_ms:  450.0
+  n_neighbours:  3
+
+plan_b:
+  filter_band:                   # may override the global filter for plan B
+    lo_hz: 0.5
+    hi_hz: 30.0
+
+output:
+  fig_dir: "data/zxc-0516/res/fig_overlap"
+  enable_plan_b: true
+  enable_plan_c: true

@@ -1,0 +1,37 @@
+\relax 
+\bibcite{li2024atm}{1}
+\bibcite{song2024nice}{2}
+\bibcite{gifford2022thingseeg2}{3}
+\bibcite{lutzow2024confound}{4}
+\bibcite{liu2025microsaccade}{5}
+\bibcite{koevoet2026overt}{6}
+\bibcite{yao2025svad}{7}
+\bibcite{gupta2019lvis}{8}
+\bibcite{lin2014coco}{9}
+\bibcite{radford2021clip}{10}
+\bibcite{dosovitskiy2021vit}{11}
+\bibcite{smithkutas2015rerp}{12}
+\bibcite{foxe2002p1}{13}
+\bibcite{stokes2016fba}{14}
+\bibcite{need2025}{15}
+\bibcite{enigma2025}{16}
+\bibcite{lawhern2018eegnet}{17}
+\bibcite{realnet2026}{18}
+\bibcite{constant2025eegmanylabs}{19}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textbf  {Dataset structure.} (\textbf  {A}) HINT class balance. After QC the 40 LVIS categories retain 105--205 trials per class out of 6376 retained epochs in the pilot subject (zfn-0507). (\textbf  {B}) Multi-label co-occurrence. Each image contains $K\in \{2,3,4\}$ targets; the conditional $P(b\mid a)$ heat-map shows category pairings that share images, which is the substrate of the within-image hint-swap contrast. The same-image-different-HINT structure means a model that uses image embeddings alone has no way to differentiate two trials with the same image but different HINTs.}}{15}{}\protected@file@percent }
+\newlabel{fig:dataset}{{1}{15}{}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces \textbf  {Overlap-corrected ERP and target-vs-non-target modulation.} Top: observed grand-average GFP with three visible cycles due to SOA $=514$\,ms overlap. Bottom: Tikhonov-deconvolved single-event response (support $[-100,+450]$\,ms; ridge $\lambda =1.0$; cond.~$7.0$). Peak GFP $1.81$\,$\mu $V at $\approx 80$\,ms.}}{16}{}\protected@file@percent }
+\newlabel{fig:rerp1}{{2}{16}{}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {Overlap-corrected ERP and target-vs-non-target modulation.} Salience-modulated ERP before correction: target trials show a $-1.75$\,$\mu $V negativity at $172$\,ms versus non-target trials in a $152$--$516$\,ms window. }}{17}{}\protected@file@percent }
+\newlabel{fig:rerp2}{{3}{17}{}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {Overlap-corrected ERP and target-vs-non-target modulation.} Same contrast after rERP correction. The effect is isolated to $100$--$300$\,ms with peak $\approx -0.5$\,$\mu $V at $200$\,ms; the late ``cycle'' in (B) outside this window is a neighbour-trial response.}}{18}{}\protected@file@percent }
+\newlabel{fig:rerp3}{{4}{18}{}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Within-image attention contrast.} Hint-swap $|\Delta \mbox  {ERP}|$ across all multi-hint images. Observed (red) exceeds the noise-only null $\sigma \sqrt  {2/\pi }$ (grey) post-stimulus; shaded band marks samples that exceed the null by $\geq 5\%$. The middle panel shows the signed mean and the sign-flip permutation $95\%$ band ($\pm $ red dotted lines). The bottom panel shows the attention-modulation index $|\Delta |/(\sigma \sqrt  {2/\pi })$ exceeding $1.0$ in the canonical $100$--$300$\,ms attention window. }}{19}{}\protected@file@percent }
+\newlabel{fig:within1}{{5}{19}{}{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces \textbf  {Within-image attention contrast.} Within-image hint LDA: distribution of per-image accuracies (left) and of $\mbox  {acc}-\mbox  {chance}$ deltas (right). Mean delta is positive and the one-sample $t$-test rejects the null of pure chance.}}{20}{}\protected@file@percent }
+\newlabel{fig:within2}{{6}{20}{}{figure.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces \textbf  {Cross-subjects benchmark.} Cross-subject top-1 / top-5 bar chart for the three trainable models on the $40$-way HINT task. In both pilot subjects the fused model (rightmost bar in each cluster) outperforms image-only by $+7.7$/$+9.1$ pp top-1 and EEG-only by $+25.7$/$+25.3$ pp top-1. The image-only baseline ($\approx 23\%$ top-1, $\approx 64\%$ top-5) sets a strong visual prior; the fusion improves on it because the EEG carries within-image attention information that the image embedding cannot. }}{21}{}\protected@file@percent }
+\newlabel{fig:bench1}{{7}{21}{}{figure.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces \textbf  {Image-only, EEG-only and fusion benchmark.} Cross-attention overlays. For four representative test trials the four learnable EEG queries' weights are projected onto the $7\times 7$ ViT patch grid and rendered as a heatmap over the original image. The model has never been told where the HINT object is, but the highest-weighted patches concentrate on the HINT object.}}{22}{}\protected@file@percent }
+\newlabel{fig:bench2}{{8}{22}{}{figure.8}{}}
+\gdef \@abspage@last{22}

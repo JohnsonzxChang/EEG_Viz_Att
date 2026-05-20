@@ -1,0 +1,14 @@
+# Full [-0.5, +1.0] s window with baseline subtraction (legacy ATM-style).
+# Use this to see overlap effects in the raw ERP / sweep.
+
+extends: "base.yaml"
+
+preproc:
+  crop_tmin_s: -0.5
+  crop_tmax_s:  1.0
+  baseline:
+    tmin_s: -0.1
+    tmax_s:  0.0
+
+output:
+  fig_dir: "data/zxc-0516/res/fig"

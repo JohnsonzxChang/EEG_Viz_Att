@@ -1,0 +1,77 @@
+dataset:
+  fif: data/zfn-0507/epochs_big-epo.fif
+  session_json: data/zfn-0507/session_rsvp_attention_lvis_pilot_20260507_201520.json
+paradigm:
+  refresh_hz: 360
+  stim_duration_ms: 352
+  isi_ms: 156
+  soa_ms: 514
+  n_hint_classes: 40
+  n_targets_per_image_K:
+  - 2
+  - 3
+preproc:
+  pick_eeg: true
+  decim: 4
+  dtype: float32
+  crop_tmin_s: -0.5
+  crop_tmax_s: 1.0
+  baseline: null
+  filter_band:
+    lo_hz: 0.5
+    hi_hz: 30.0
+qc:
+  p2p_max_uv: 200.0
+  flat_count_max: 2
+  kurt_max: 8.0
+viz:
+  topomap_times_ms:
+  - 100
+  - 170
+  - 220
+  - 300
+  - 400
+  target_effect_peak_ms: 300
+  alpha_band_hz:
+  - 8.0
+  - 13.0
+  target_area_window_ms:
+  - 200
+  - 500
+  max_hints_panel: 16
+decoder:
+  win_ms:
+  - 0
+  - 500
+  n_folds: 5
+  seed: 42
+  lda_solver: svd
+  lda_shrinkage: null
+  erp_avg_ks:
+  - 1
+  - 2
+  - 4
+  - 8
+  - all
+sweep:
+  enable: true
+  t_len_ms: 200
+  t_step_ms: 100
+  n_folds: 3
+  lda_solver: lsqr
+  lda_shrinkage: auto
+output:
+  fig_dir: process1_data_process/fig_overlap
+  save_svg: true
+  enable_plan_b: true
+  enable_plan_c: true
+rerp:
+  soa_ms: 514.0
+  ridge: 1.0
+  resp_tmin_ms: -100.0
+  resp_tmax_ms: 450.0
+  n_neighbours: 3
+plan_b:
+  filter_band:
+    lo_hz: 0.5
+    hi_hz: 30.0

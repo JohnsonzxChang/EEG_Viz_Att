@@ -1,0 +1,243 @@
+This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.4) (preloaded format=xelatex 2026.5.7)  20 MAY 2026 13:50
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**./main.tex
+(main.tex
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-09-02>
+(C:\Program Files\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Program Files\MiKTeX\tex/latex/base\size12.clo
+File: size12.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count271
+\c@section=\count272
+\c@subsection=\count273
+\c@subsubsection=\count274
+\c@paragraph=\count275
+\c@subparagraph=\count276
+\c@figure=\count277
+\c@table=\count278
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen148
+) (sty/scicite.sty
+LaTeX Info: Redefining \cite on input line 91.
+LaTeX Info: Redefining \nocite on input line 132.
+
+
+LaTeX Warning: You have requested package `sty/scicite',
+               but the package provides `scicite'.
+
+Package: scicite 2003/11/04  v 4.01
+) (C:\Program Files\MiKTeX\tex/latex/psnfss\times.sty
+Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
+)
+(C:\Program Files\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+(C:\Program Files\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Program Files\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+(C:\Program Files\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Program Files\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(C:\Program Files\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: xetex.def on input line 106.
+
+(C:\Program Files\MiKTeX\tex/latex/graphics-def\xetex.def
+File: xetex.def 2025/09/29 v5.0o Graphics/color driver for xetex
+))
+\Gin@req@height=\dimen149
+\Gin@req@width=\dimen150
+)
+\c@lastnote=\count279
+LaTeX Font Info:    Trying to load font information for TU+ptm on input line 47
+.
+LaTeX Font Info:    No file TUptm.fd. on input line 47.
+
+
+LaTeX Font Warning: Font shape `TU/ptm/m/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 47.
+
+(C:\Program Files\MiKTeX\tex/latex/l3backend\l3backend-xetex.def
+File: l3backend-xetex.def 2025-06-09 L3 backend support: XeTeX
+\g__graphics_track_int=\count280
+\g__pdfannot_backend_int=\count281
+\g__pdfannot_backend_link_int=\count282
+) (main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 49.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 49.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 49.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 49.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 49.
+
+
+LaTeX Font Warning: Font shape `TU/ptm/b/n' undefined
+(Font)              using `TU/ptm/m/n' instead on input line 55.
+
+
+LaTeX Font Warning: Font shape `TU/ptm/b/it' undefined
+(Font)              using `TU/ptm/b/n' instead on input line 56.
+
+
+LaTeX Font Warning: Font shape `TU/ptm/m/it' undefined
+(Font)              using `TU/ptm/m/n' instead on input line 82.
+
+
+
+[1
+
+]
+
+[2]
+LaTeX Font Info:    Trying to load font information for TU+pcr on input line 15
+8.
+LaTeX Font Info:    No file TUpcr.fd. on input line 158.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 158.
+
+
+
+[3]
+
+[4]
+
+[5]
+
+[6]
+
+[7]
+
+[8]
+
+[9]
+
+[10]
+
+[11]
+
+[12]
+
+[13]
+
+[14]
+File: figures/F10_class_balance.png Graphic file (type bmp)
+<figures/F10_class_balance.png>
+File: figures/F11_multilabel_cooccurrence.png Graphic file (type bmp)
+<figures/F11_multilabel_cooccurrence.png>
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: figures/F18_rerp_gfp_before_after.png Graphic file (type bmp)
+<figures/F18_rerp_gfp_before_after.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: figures/F06_target_vs_nontarget_erp.png Graphic file (type bmp)
+<figures/F06_target_vs_nontarget_erp.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: figures/F20_rerp_salient_vs_nonsalient.png Graphic file (type bmp)
+<figures/F20_rerp_salient_vs_nonsalient.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: figures/F06new_within_image_attention.png Graphic file (type bmp)
+<figures/F06new_within_image_attention.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: figures/F21_within_image_decoding.png Graphic file (type bmp)
+<figures/F21_within_image_decoding.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: figures/F0_cross_subject_bar.png Graphic file (type bmp)
+<figures/F0_cross_subject_bar.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: figures/F4_attn_overlays_zfn.png Graphic file (type bmp)
+<figures/F4_attn_overlays_zfn.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+
+[15]
+
+[16]
+
+[17]
+
+[18]
+
+[19]
+
+[20]
+
+[21]
+
+[22] (main.aux)
+ ***********
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-09-02>
+ ***********
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 1266 strings out of 403196
+ 22477 string characters out of 5460263
+ 439348 words of memory out of 5000000
+ 29781 multiletter control sequences out of 15000+600000
+ 632330 words of font info for 59 fonts, out of 8000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 57i,8n,65p,894b,291s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on main.pdf (22 pages).

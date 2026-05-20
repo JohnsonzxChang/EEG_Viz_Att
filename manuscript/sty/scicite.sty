@@ -1,0 +1,214 @@
+%       What follows is a slightly modified version of D. Arseneau's
+%       cite.sty style file, to take into account the form of references
+%       for the journal Science.  We have left all copyright information
+%       intact, as instructed by the author of the original file.
+\edef\citenum{%
+  \catcode\string`\string ` \the\catcode\string`\`
+  \catcode\string`\string ' \the\catcode\string`\'
+  \catcode\string`\string = \the\catcode\string`\=
+  \catcode\string`\string _ \the\catcode\string`\_
+  \catcode\string`\string : \the\catcode\string`\:}
+\catcode\string`\` 12
+\catcode`\' 12
+\catcode`\= 12
+\catcode`\_ 8
+\catcode`\: 12
+
+\providecommand\citeleft{(}
+\providecommand\citeright{)}
+\renewcommand\@biblabel[1]{#1.}
+\providecommand\citemid{,\penalty\@medpenalty\ }
+\providecommand\citepunct{,\penalty\@m\hskip.13emplus.1emminus.1em}%
+\providecommand{\citedash}{\hbox{--}\penalty\@m}
+\providecommand\citeform{}
+\providecommand{\CiteMoveChars}{.,:;}
+\providecommand\OverciteFont{\fontsize\sf@size\baselineskip\selectfont}
+
+\let\oc@verbo\relax
+\def\oc@movep#1{\futurelet\@tempb\@citey}
+
+\DeclareRobustCommand\citen[1]{%
+ \begingroup
+  \let\@safe@activesfalse\@empty
+  \@nocite{#1}%
+  \@tempcntb\m@ne
+  \let\@h@ld\@empty
+  \let\@citea\@empty
+  \let\@celt\delimiter
+  \def\@cite@list{}%
+  \@for \@citeb:=\@no@sparg\do{\@make@cite@list}%
+  \@tempcnta\m@ne
+  \let\@celt\@compress@cite \@cite@list
+  \@h@ld
+ \endgroup
+ \@restore@auxhandle
+ }
+
+\def\@make@cite@list{%
+ \expandafter\let \expandafter\@B@citeB
+          \csname b@\@citeb\@extra@b@citeb \endcsname
+ \ifx\@B@citeB\relax
+    \@citea {\bfseries ?}\let\@citea\citepunct \G@refundefinedtrue
+    \@warning {Citation `\@citeb' on page \thepage\space undefined}%
+    \oc@verbo \global\@namedef{b@\@citeb\@extra@b@citeb}{?}%
+ \else
+    \ifcat _\ifnum\z@<0\@B@citeB _\else A\fi
+       \@addto@cite@list
+    \else
+       \@citea \citeform{\@B@citeB}\let\@citea\citepunct
+ \fi\fi}
+
+\def\@addto@cite@list{\@tempcnta\@B@citeB \relax
+   \ifnum \@tempcnta>\@tempcntb
+      \edef\@cite@list{\@cite@list \@celt{\@B@citeB}}%
+      \@tempcntb\@tempcnta
+   \else
+      \edef\@cite@list{\expandafter\@sort@celt \@cite@list \@gobble @}%
+   \fi}
+\def\@sort@celt#1#2{\ifx \@celt #1%
+   \ifnum #2<\@tempcnta
+      \@celt{#2}%
+      \expandafter\expandafter\expandafter\@sort@celt
+   \else
+      \@celt{\number\@tempcnta}\@celt{#2}%
+\fi\fi}
+
+\def\@compress@cite#1{%
+  \advance\@tempcnta\@ne
+  \ifnum #1=\@tempcnta
+     \ifx\@h@ld\@empty
+        \expandafter\def\expandafter\@h@ld\expandafter{\@citea
+           \citeform{#1}}%
+     \else
+        \def\@h@ld{\citedash \citeform{#1}}%
+     \fi
+  \else
+     \@h@ld \@citea \citeform{#1}%
+     \let\@h@ld\@empty
+  \fi \@tempcnta#1\let\@citea\citepunct
+}
+
+\DeclareRobustCommand{\cite}{%
+  \@ifnextchar[{\@tempswatrue\@citex}{\@tempswafalse\@citex[]}}
+
+\def\@citex[#1]#2{\@cite{\citen{#2}}{#1}}
+
+\def\@cite#1#2{\leavevmode \cite@adjust
+  \citeleft{\itshape {#1\if@tempswa\@safe@activesfalse\citemid{#2}\fi
+  \spacefactor\@m
+  }}\citeright
+ \@restore@auxhandle}
+
+\def\cite@adjust{\begingroup%
+  \@tempskipa\lastskip \edef\@tempa{\the\@tempskipa}\unskip
+  \ifnum\lastpenalty=\z@ \penalty\@highpenalty \fi
+  \ifx\@tempa\@zero@skip \spacefactor1001 \fi
+  \ifnum\spacefactor>\@m \ \else \hskip\@tempskipa \fi
+  \endgroup}
+
+\edef\@zero@skip{\the\z@skip}
+
+\def\@citew#1{\begingroup \leavevmode
+  \@if@fillglue \lastskip \relax \unskip
+  \def\@tempa{\@tempcnta\spacefactor
+     \/%
+     \@citess{\citen{#1}}\spacefactor\@tempcnta
+     \endgroup \@restore@auxhandle}%
+  \oc@movep\relax}%
+
+\def\@citey{\let\@tempc\@tempa
+   \ifx\@tempb.\ifnum\spacefactor<\@bigSfactor\else
+     \let\@tempb\relax \let\@tempc\oc@movep
+   \fi\fi
+   \expandafter\@citepc\CiteMoveChars\delimiter
+   \@tempc}%
+
+\def\@citepc#1{%
+   \ifx\@tempb#1\@empty #1\let\@tempc\oc@movep \fi
+   \ifx\delimiter#1\else \expandafter\@citepc\fi}
+
+\def\@citess#1{\mbox{$\m@th^{\hbox{\OverciteFont{#1}}}$}}
+
+\DeclareRobustCommand\nocite[1]{%
+ \@bsphack \@nocite{#1}%
+ \@for \@citeb:=\@no@sparg\do{\@ifundefined{b@\@citeb\@extra@b@citeb}%
+    {\G@refundefinedtrue\@warning{Citation `\@citeb' undefined}%
+    \oc@verbo \global\@namedef{b@\@citeb\@extra@b@citeb}{?}}{}}%
+ \@esphack}
+
+\def\@nocite#1{\begingroup\let\protect\string%
+ \xdef\@no@sparg{\expandafter\@ignsp#1 \: }\endgroup%
+ \if@filesw \immediate\write\@newciteauxhandle
+    {\string\citation {\@no@sparg}}\fi
+ }
+
+\def\@ignsp#1 {\ifx\:#1\@empty\else #1\expandafter\@ignsp\fi}
+
+\begingroup
+ \catcode`F=12 \catcode`I=12\catcode`L=12
+ \lowercase{\endgroup
+ \def\@if@fillglue#1{%
+  \begingroup \skip@#1\relax
+  \expandafter\endgroup\expandafter
+  \@is@fil@ \the\skip@ \relax\@firstoftwo FIL\relax\@secondoftwo\@nil}
+ \def\@is@fil@ #1FIL#2\relax#3#4\@nil{#3}
+}
+
+\let\nocitecount\relax
+
+\providecommand\hyper@natlinkstart[1]{}
+\providecommand\hyper@natlinkend{}
+\providecommand\NAT@parse{\@firstofone}
+
+\DeclareOption{verbose}{\def\oc@verbo#1#2#3#4{}}
+\DeclareOption{nospace}{\def\citepunct{,\penalty\@m}}
+\DeclareOption{space}{\def\citepunct{,\penalty\@highpenalty\ }}
+\DeclareOption{ref}{\def\citeleft{[Ref.\penalty\@M\ }}
+\DeclareOption{nosort}{\def\@addto@cite@list
+   {\edef\@cite@list{\@cite@list \@celt{\@B@citeB}}}}
+\DeclareOption{sort}{}
+\DeclareOption{nomove}{\def\oc@movep{\@tempa}\let\@citey\oc@movep}
+\DeclareOption{move}{}
+\DeclareOption{nocompress}{%
+  \def\@compress@cite#1{%
+     \@h@ld \@citea \hyper@natlinkstart\citeform{#1}\hyper@natlinkend
+     \let\@h@ld\@empty \let\@citea\citepunct}
+}
+\DeclareOption{compress}{}
+\DeclareOption{super}{\ExecuteOptions{superscript}}
+\DeclareOption{superscript}{%
+  \DeclareRobustCommand{\cite}{%
+    \@ifnextchar[{\@tempswatrue\@citex}{\@tempswafalse\@citew}}
+}
+\DeclareOption{noadjust}{\let\cite@adjust\@empty}
+\DeclareOption{adjust}{}
+\DeclareOption{biblabel}{\def\@biblabel#1{\@citess{#1}\kern-\labelsep\,}}
+\ProvidesPackage{scicite}[2003/11/04 \space  v 4.01]
+\ProcessOptions
+
+\ifx\@citey\oc@movep\else
+  \mathchardef\@bigSfactor3000
+  \expandafter\def\expandafter\frenchspacing\expandafter{\frenchspacing
+    \mathchardef\@bigSfactor1001
+    \sfcode`\.\@bigSfactor \sfcode`\?\@bigSfactor \sfcode`\!\@bigSfactor }%
+  \ifnum\sfcode`\.=\@m \frenchspacing \fi
+\fi
+
+\@ifundefined{@extra@b@citeb}{\def\@extra@b@citeb{}}{}
+
+\providecommand\@newciteauxhandle{\@auxout}
+\AtBeginDocument{\@ifundefined{newcites}{\global\let\@restore@auxhandle\relax}{}}
+\def\@restore@auxhandle{\def\@newciteauxhandle{\@auxout}}
+
+\@ifundefined{G@refundefinedtrue}{\let\G@refundefinedtrue\relax}{}
+
+\@ifundefined{@safe@activesfalse}{}{}
+\@ifundefined{bbl@cite@choice}{}{\@ifundefined{org@@citex}{}%
+  {\let\org@@citex\@citex}}%
+
+\citenum
+
+\let\citenum\citen
+\let\citeonline\citen
+
+\endinput
